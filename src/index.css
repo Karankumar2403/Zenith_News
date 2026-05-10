@@ -1,0 +1,65 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Outfit", sans-serif;
+  --font-serif: "Playfair Display", serif;
+  
+  --color-primary: #3b82f6;
+  --color-accent: #8b5cf6;
+}
+
+@layer base {
+  body {
+    @apply bg-zinc-50 text-zinc-900 font-sans antialiased overflow-x-hidden transition-colors duration-300;
+  }
+  
+  .dark body {
+    @apply bg-[#09090b] text-zinc-50;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-serif tracking-tight;
+  }
+}
+
+/* Glass and layout components */
+.glass-panel {
+  @apply bg-white/70 backdrop-blur-md border border-zinc-200/50;
+}
+
+.dark .glass-panel {
+  @apply bg-zinc-950/70 border-white/5;
+}
+
+/* Base utility proxies */
+.bg-background {
+  @apply bg-zinc-50 dark:bg-[#09090b];
+}
+
+.bg-card {
+  @apply bg-white dark:bg-[#121214];
+}
+
+.text-foreground {
+  @apply text-zinc-900 dark:text-zinc-50;
+}
+
+.text-muted-foreground {
+  @apply text-zinc-500 dark:text-zinc-400;
+}
+
+.border-border {
+  @apply border-zinc-200 dark:border-zinc-800;
+}
+
+.hover-glow {
+  transition: all 0.3s ease;
+}
+
+.hover-glow:hover {
+  box-shadow: 0 0 20px rgba(139, 92, 246, 0.3);
+}
+
+.text-gradient {
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent;
+}
