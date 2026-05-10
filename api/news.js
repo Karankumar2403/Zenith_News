@@ -15,7 +15,11 @@ export default async function handler(req, res) {
       url = `https://newsapi.org/v2/top-headlines?country=us&category=${category}&apiKey=${apiKey}`;
     }
 
-    const response = await fetch(url);
+    const response = await fetch(url, {
+      headers: {
+        'User-Agent': 'ZenithNews/1.0',
+      }
+    });
     const data = await response.json();
 
     if (!response.ok) {
