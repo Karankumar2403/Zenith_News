@@ -21,15 +21,25 @@ export default function NewsFeed({ isHome = false }) {
       
       try {
         const apiKey = import.meta.env.VITE_API_KEY;
-        // Fallback to a proxy or GNews if needed, but let's use the provided key structure (NewsAPI)
-        // Note: NewsAPI requires 'us' or other country, category.
+        let url;
+        const isDev = import.meta.env.DEV;
         
-        let url = `https://newsapi.org/v2/top-headlines?country=us&apiKey=${apiKey}`;
-        
-        if (searchQuery) {
-          url = `https://newsapi.org/v2/everything?q=${encodeURIComponent(searchQuery)}&apiKey=${apiKey}`;
-        } else if (category && category !== 'general') {
-          url = `https://newsapi.org/v2/top-headlines?country=us&category=${category}&apiKey=${apiKey}`;
+        if (isDev) {
+          // In local development, fetch directly from NewsAPI
+          url = `https://newsapi.org/v2/top-headlines?country=us&apiKey=${apiKey}`;
+          if (searchQuery) {
+            url = `https://newsapi.org/v2/everything?q=${encodeURIComponent(searchQuery)}&apiKey=${apiKey}`;
+          } else if (category && category !== 'general') {
+            url = `https://newsapi.org/v2/top-headlines?country=us&category=${category}&apiKey=${apiKey}`;
+          }
+        } else {
+          // In production, use Vercel Serverless Function to bypass CORS and Free Tier restrictions
+          url = `/api/news?`;
+          if (searchQuery) {
+            url += `q=${encodeURIComponent(searchQuery)}`;
+          } else if (category && category !== 'general') {
+            url += `category=${category}`;
+          }
         }
 
         const response = await axios.get(url);
